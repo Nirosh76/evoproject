@@ -4,6 +4,13 @@ import React, { useState } from "react";
 export default function Loginform({ title }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  const validateForm = () => {
+    if (!email) {
+      return true;
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,6 +39,7 @@ export default function Loginform({ title }) {
               className="bg-gray-50 border rounded-lg border-gray-400 text-gray-900 focus:right-1 focus:ring-offset-2  focus:ring-green-500 focus:border-red-400 block w-full p-2.5"
               placeholder="yourname@email.com"
             />
+            <div className="text-red-600">email is required</div>
           </div>
           <div>
             <label
@@ -49,6 +57,7 @@ export default function Loginform({ title }) {
               className="bg-gray-50 border rounded-lg border-gray-400 text-gray-900 focus:right-1 focus:ring-offset-2  focus:ring-green-500 focus:border-red-400 block w-full p-2.5"
               placeholder="*******"
             />
+            <div className="text-red-600">password is required</div>
           </div>
           {/* remember me */}
           <div className="flex justify-between">
