@@ -5,17 +5,36 @@ export default function Loginform({ title }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const validateForm = () => {
     if (!email) {
-      return true;
+      setEmailError("Email is required");
+      return false;
+    } else {
+      setEmailError("");
     }
+
+    if (!password) {
+      setPasswordError("Password is required");
+      return false;
+    } else {
+      setPasswordError("");
+    }
+
+    return true;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form data :", { email: email, password: password });
+    const isValid = validateForm();
+
+    if (isValid) {
+      console.log("Form data :", { email: email, password: password });
+    }
   };
+
+  /////////////////////////////////
   return (
     <div className="w-[380px] mx-auto">
       <div className="bg-white shadow-md border border-gray-400 rounded-lg p-4">
@@ -39,8 +58,11 @@ export default function Loginform({ title }) {
               className="bg-gray-50 border rounded-lg border-gray-400 text-gray-900 focus:right-1 focus:ring-offset-2  focus:ring-green-500 focus:border-red-400 block w-full p-2.5"
               placeholder="yourname@email.com"
             />
-            <div className="text-red-600">email is required</div>
+            {emailError && (
+              <div className="text-red-600 text-sx mt-2 ml-2">{emailError}</div>
+            )}
           </div>
+
           <div>
             <label
               htmlFor="password"
@@ -57,7 +79,12 @@ export default function Loginform({ title }) {
               className="bg-gray-50 border rounded-lg border-gray-400 text-gray-900 focus:right-1 focus:ring-offset-2  focus:ring-green-500 focus:border-red-400 block w-full p-2.5"
               placeholder="*******"
             />
-            <div className="text-red-600">password is required</div>
+
+            {passwordError && (
+              <div className="text-red-600 text-sx mt-2 ml-2">
+                {passwordError}
+              </div>
+            )}
           </div>
           {/* remember me */}
           <div className="flex justify-between">
