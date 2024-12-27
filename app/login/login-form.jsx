@@ -1,4 +1,5 @@
 "use client";
+import { loginUser } from "@/lib/apis/server";
 import React, { useState } from "react";
 
 export default function Loginform({ title }) {
@@ -30,7 +31,8 @@ export default function Loginform({ title }) {
     const isValid = validateForm();
 
     if (isValid) {
-      console.log("Form data :", { email: email, password: password });
+      const login = loginUser({ email: email, password: password });
+      console.log("FROM LOGIN FORM", login);
     }
   };
 
