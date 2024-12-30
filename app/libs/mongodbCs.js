@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+/*const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri =
   "mongodb+srv://niroshlk:<db_password>@cluster0.jv3tk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
@@ -26,3 +26,4 @@ async function run() {
   }
 }
 run().catch(console.dir);
+*/
