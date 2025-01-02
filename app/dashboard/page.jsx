@@ -1,4 +1,7 @@
-import { getMovies } from "@/app/libs/apis/server";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { FaComputer } from "react-icons/fa6";
+import { CiFaceSmile } from "react-icons/ci";
 
 import {
   Card,
@@ -8,8 +11,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
+
 import React from "react";
+import { getMovies } from "@/app/libs/apis/server";
 
 export default async function dashboardpage() {
   //1. add shadcn card
@@ -35,16 +39,16 @@ export default async function dashboardpage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {moviesQuery?.length &&
             moviesQuery.map((movie) => (
-              <div key={movie._id} className="h-96">
+              <div key={movie._id} className="h-[480px] ">
                 <Card className="h-full">
                   <CardHeader>
-                    <CardTitle>{movie?.title}</CardTitle>
-                    <CardDescription className="sr-only">
-                      {movie?.plot}
-                    </CardDescription>
+                    <CardTitle className="text-center">
+                      {movie?.title} ({movie?.year ?? "N/A"})
+                    </CardTitle>
+                    <CardDescription>{movie?.year ?? "N/A"}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex justify-center bg-black w-full h-[276px] mb-4 rounded">
+                    <div className="flex justify-center bg-black w-full h-[180px] mb-4 rounded">
                       <Image
                         src={movie?.poster}
                         alt={movie?.title}
@@ -52,10 +56,32 @@ export default async function dashboardpage() {
                         height={400}
                       />
                     </div>
+                    <div className="flex flex-col justify-between h-[154px]">
+                      <div> Year : {movie?.year ?? "N/A"}</div>
+                      <p className="line-clamp-3 text-xs">{movie?.plot}</p>
+                      {/* <div>
+                      {movie?.genres?.length &&
+                        movie?.genres?.map((genres, index) => (
+                          <div key={index} className="text-blue-700">
+                            
+                          </div>
+                        ))}
+                    </div> */}
+                      <div className="text-sm font-semibold">
+                        {movie?.genres?.length && movie?.genres?.join(" / ")}
+                      </div>
+                      <div className="flex flex-row justify-between items-center">
+                        <Badge variant="Success" className="font-medium">
+                          Rated : {movie?.rated ?? "N/A"}
+                        </Badge>
+                        <div className="flex space-x-2 font-semibold">
+                          <CiFaceSmile className="text-red-700" />
+                          <FaComputer />
+                        </div>
+                      </div>
+                    </div>
                   </CardContent>
-                  <CardFooter>
-                    <p>Card Footer</p>
-                  </CardFooter>
+                  <CardFooter></CardFooter>
                 </Card>
               </div>
             ))}
