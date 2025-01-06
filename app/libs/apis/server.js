@@ -14,6 +14,36 @@ export const loginUser = async (loginData) => {
   console.log("LOGIN ACTION", response.json());
 };
 
+export const registerUser = async (formData) => {
+  try {
+    //console.log("formData", formData);
+    const response = await api.post("register", { json: formData });
+
+    if (response.ok) {
+      return response.json();
+    } else {
+      return undefined;
+    }
+  } catch (error) {
+    const status = error.response.status;
+    const responseBody = await error.response.json();
+
+    console.log("status ", status);
+    console.log("resBody ", responseBody.error);
+
+    if (status && responseBody) {
+      // return { error: true, status, responseBody };
+      if (status === 409) {
+        return { responseBody };
+      } else {
+        return undefined;
+      }
+    } else {
+      return undefined;
+    }
+  }
+};
+
 export const getMovies = async () => {
   try {
     const response = await api.get("movies", { cache: "no-store" });
