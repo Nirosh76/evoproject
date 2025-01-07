@@ -2,7 +2,8 @@ import ky from "ky";
 import { api } from "../api";
 
 export const loginUser = async (loginData) => {
-  const response = await fetch("http://localhost:3000/api/v1/login", {
+  // const response = await fetch("http://localhost:3000/api/v1/login", {
+  const response = await api.post("login)", {
     method: "POST",
     body: JSON.stringify({
       email: loginData?.email,
