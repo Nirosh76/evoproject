@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -14,6 +15,9 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import React, { useState } from "react";
 import { registerUser } from "@/app/libs/apis/server";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+
 //keep thi9s as a cli9ent commponent (fu8nt9ional componnent)
 
 const DEFAULT_ERROR = {
@@ -23,6 +27,7 @@ const DEFAULT_ERROR = {
 export default function RegisterForm() {
   const [error, setError] = useState(DEFAULT_ERROR);
   const [isLoading, setLoding] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmitForm = async (event) => {
     event?.preventDefault();
@@ -45,7 +50,18 @@ export default function RegisterForm() {
         console.log("check ", regResp.responseBody);
         if (regResp?.responseBody?.error) {
           setError({ error: true, message: regResp.responseBody.error });
-          console.log("set error");
+        } else {
+          console.log("success");
+          toast({
+            variant: "success",
+            title: "Registration Successfull.",
+            description: "Continue with Login.",
+            action: (
+              <ToastAction altText="login" className="hover:bg-green-600">
+                Login
+              </ToastAction>
+            ),
+          });
         }
       } else {
         setError({ error: true, message: "Password doesn't match" });
