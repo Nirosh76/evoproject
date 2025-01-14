@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 const clientPromise = () => {
-  const MONGO_URL = process.env.NEXT_PUBLIC_DATABASE_URL;
+  const MONGO_URL = process.env.MONGODB_URI;
   const options = {};
 
   if (!MONGO_URL) {

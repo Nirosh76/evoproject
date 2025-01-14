@@ -47,7 +47,7 @@ export const registerUser = async (formData) => {
 
 export const getMovies = async () => {
   try {
-    const response = await api.get("movies", { cache: "no-store" });
+    const response = await api.get("v1/movies", { cache: "no-store" });
 
     /* const response = await ky.get("http://localhost:3000/api/v1/movies", {
       cache: "no-store",
