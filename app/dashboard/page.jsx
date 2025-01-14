@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 
 import React from "react";
-import { getMovies } from "@/app/libs/apis/server";
+import { getMovies } from "@/lib/apis/server";
 
 export default async function dashboardpage() {
   //1. add shadcn card

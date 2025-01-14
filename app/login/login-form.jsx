@@ -1,5 +1,5 @@
 "use client";
-import { loginUser } from "@/app/libs/apis/server";
+import { loginUser } from "@/lib/apis/server";
 import React, { useState } from "react";
 
 export default function Loginform({ title }) {
