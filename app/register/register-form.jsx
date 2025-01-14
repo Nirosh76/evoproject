@@ -14,9 +14,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import React, { useState } from "react";
-import { registerUser } from "@/lib/apis/server";
+//import { registerUser } from "@/lib/apis/server";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { signUp } from "@/lib/auth-client";
 
 //keep thi9s as a cli9ent commponent (fu8nt9ional componnent)
 
@@ -44,24 +45,48 @@ export default function RegisterForm() {
     if (name && email && password && password2) {
       if (password === password2) {
         setError(DEFAULT_ERROR);
-        setLoding(true);
-        const regResp = await registerUser({ name, email, password });
-        setLoding(false);
-        console.log("check ", regResp.responseBody);
-        if (regResp?.responseBody?.error) {
-          setError({ error: true, message: regResp.responseBody.error });
-        } else {
-          console.log("success");
-          toast({
-            variant: "success",
-            title: "Registration Successfull.",
-            description: "Continue with Login.",
-            action: (
-              <ToastAction altText="login" className="hover:bg-green-600">
-                Login
-              </ToastAction>
-            ),
-          });
+        // setLoding(true);
+        // const regResp = await registerUser({ name, email, password });
+        // setLoding(false);
+        // console.log("check ", regResp.responseBody);
+        // if (regResp?.responseBody?.error) {
+        //   setError({ error: true, message: regResp.responseBody.error });
+        // } else {
+        //   console.log("success");
+        //   toast({
+        //     variant: "success",
+        //     title: "Registration Successfull.",
+        //     description: "Continue with Login.",
+        //     action: (
+        //       <ToastAction altText="login" className="hover:bg-green-600">
+        //         Login
+        //       </ToastAction>
+        //     ),
+        //   });
+        // }
+
+        const { data, error } = await signUp.email(
+          {
+            email: email,
+            password: password,
+            name: name,
+            image: undefined,
+          },
+          {
+            onRequest: () => {},
+            onSuccess: (ctx) => {
+              console.log("OnSuccess ", ctx);
+            },
+            onError: (ctx) => {
+              if (ctx) {
+                setError({ error: true, message: ctx.error.message });
+              }
+            },
+          }
+        );
+
+        if (data) {
+          console.log("data", data);
         }
       } else {
         setError({ error: true, message: "Password doesn't match" });
@@ -73,8 +98,8 @@ export default function RegisterForm() {
     <div className="flex justify-center items-center min-h-screen">
       <Card className="bg-blue-50/90 w-[350px]">
         <CardHeader>
-          <CardTitle>Create an Account</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-center">Create an Account</CardTitle>
+          <CardDescription className="text-sx text-center">
             Enter your informatin to get started
           </CardDescription>
         </CardHeader>
@@ -117,7 +142,7 @@ export default function RegisterForm() {
 
               <div className="flex justify-center">
                 {error.error && (
-                  <span className="text-red-600 text-xs text-center">
+                  <span className="text-red-600 text-xs text-center animate-pulse duration-1000">
                     {error.message}
                   </span>
                 )}
