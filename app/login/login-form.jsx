@@ -1,6 +1,8 @@
 "use client";
-import { loginUser } from "@/lib/apis/server";
+// import { loginUser } from "@/lib/apis/server";
 import React, { useState } from "react";
+import { signIn } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 
 export default function Loginform({ title }) {
   const [email, setEmail] = useState("");
@@ -26,13 +28,28 @@ export default function Loginform({ title }) {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const isValid = validateForm();
 
     if (isValid) {
-      const login = loginUser({ email: email, password: password });
-      console.log("FROM LOGIN FORM", login);
+      //const login = loginUser({ email: email, password: password });
+      //console.log("FROM LOGIN FORM", login);
+      await signIn.email(
+        {
+          email,
+          password,
+        },
+        {
+          onSuccess: () => {
+            redirect("/dashboard");
+          },
+          onError: (ctx) => {
+            console.log(ctx.error.message);
+            setEmailError(ctx.error.message);
+          },
+        }
+      );
     }
   };
 

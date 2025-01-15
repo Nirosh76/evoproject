@@ -11,12 +11,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useSession } from "@/lib/auth-client";
+import { useSession, signOut } from "@/lib/auth-client";
 import React from "react";
+import { redirect } from "next/navigation";
 
 export default function UserNav() {
   const { data: session } = useSession();
   console.log(session);
+
+  const handleLogout = async () => {
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          redirect("/login");
+        },
+      },
+    });
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -42,7 +53,7 @@ export default function UserNav() {
           <span>Settings</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4 text-primary-400" />
           <span>Logout</span>
         </DropdownMenuItem>
