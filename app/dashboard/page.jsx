@@ -26,40 +26,32 @@ export default async function dashboardpage() {
 
   console.log("length ", moviesQuery?.length);
   return (
-    <main>
-      <nav className="bg-blue-300 w-full h-16 flex  justify-start items-center">
-        <div className="container">
-          <h1 className="text-black font-bold text-xl "> Mflix Dashboard</h1>
-        </div>
-      </nav>
-
-      {/* body */}
-
-      <div className="container mt-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {moviesQuery?.length &&
-            moviesQuery.map((movie) => (
-              <div key={movie._id} className="h-[480px] ">
-                <Card className="h-full">
-                  <CardHeader>
-                    <CardTitle className="text-center">
-                      {movie?.title} ({movie?.year ?? "N/A"})
-                    </CardTitle>
-                    <CardDescription>{movie?.year ?? "N/A"}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex justify-center bg-black w-full h-[180px] mb-4 rounded">
-                      <Image
-                        src={movie?.poster}
-                        alt={movie?.title}
-                        width={200}
-                        height={400}
-                      />
-                    </div>
-                    <div className="flex flex-col justify-between h-[154px]">
-                      <div> Year : {movie?.year ?? "N/A"}</div>
-                      <p className="line-clamp-3 text-xs">{movie?.plot}</p>
-                      {/* <div>
+    <div className="space-y-4">
+      <h1 className="text-3xl font-bold">Movies</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {moviesQuery?.length &&
+          moviesQuery.map((movie) => (
+            <div key={movie._id} className="h-[480px] ">
+              <Card className="h-full">
+                <CardHeader>
+                  <CardTitle className="text-center">
+                    {movie?.title} ({movie?.year ?? "N/A"})
+                  </CardTitle>
+                  <CardDescription>{movie?.year ?? "N/A"}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-center bg-black w-full h-[180px] mb-4 rounded">
+                    <Image
+                      src={movie?.poster}
+                      alt={movie?.title}
+                      width={200}
+                      height={400}
+                    />
+                  </div>
+                  <div className="flex flex-col justify-between h-[154px]">
+                    <div> Year : {movie?.year ?? "N/A"}</div>
+                    <p className="line-clamp-3 text-xs">{movie?.plot}</p>
+                    {/* <div>
                       {movie?.genres?.length &&
                         movie?.genres?.map((genres, index) => (
                           <div key={index} className="text-blue-700">
@@ -67,26 +59,25 @@ export default async function dashboardpage() {
                           </div>
                         ))}
                     </div> */}
-                      <div className="text-sm font-semibold">
-                        {movie?.genres?.length && movie?.genres?.join(" / ")}
-                      </div>
-                      <div className="flex flex-row justify-between items-center">
-                        <Badge variant="Success" className="font-medium">
-                          Rated : {movie?.rated ?? "N/A"}
-                        </Badge>
-                        <div className="flex space-x-2 font-semibold">
-                          <CiFaceSmile className="text-red-700" />
-                          <FaComputer />
-                        </div>
+                    <div className="text-sm font-semibold">
+                      {movie?.genres?.length && movie?.genres?.join(" / ")}
+                    </div>
+                    <div className="flex flex-row justify-between items-center">
+                      <Badge variant="Success" className="font-medium">
+                        Rated : {movie?.rated ?? "N/A"}
+                      </Badge>
+                      <div className="flex space-x-2 font-semibold">
+                        <CiFaceSmile className="text-red-700" />
+                        <FaComputer />
                       </div>
                     </div>
-                  </CardContent>
-                  <CardFooter></CardFooter>
-                </Card>
-              </div>
-            ))}
-        </div>
+                  </div>
+                </CardContent>
+                <CardFooter></CardFooter>
+              </Card>
+            </div>
+          ))}
       </div>
-    </main>
+    </div>
   );
 }
