@@ -21,7 +21,7 @@ export default async function dashboardpage() {
   //3. read the dummy responses
   //4. render dataset in ui
   const moviesQuery = await getMovies();
-
+  // comment
   console.log("MOVIES", moviesQuery);
 
   console.log("length ", moviesQuery?.length);
