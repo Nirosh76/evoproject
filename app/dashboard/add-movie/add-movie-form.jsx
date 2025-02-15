@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-
+import { useToast } from "@/hooks/use-toast";
 import {
   Card,
   CardContent,
@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import React, { useState } from "react";
 //import { registerUser } from "@/lib/apis/server";
-import { useToast } from "@/hooks/use-toast";
+
 import { ToastAction } from "@/components/ui/toast";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -35,6 +35,8 @@ export default function AddMovieForm() {
   const [genres, setGenres] = useState([]);
   const [rated, setRated] = useState();
   const [isLoading, setLoading] = useState("");
+  const { toast } = useToast();
+
   const genresList = GENRES.map((genre) => ({
     label: genre,
     value: genre,
@@ -47,12 +49,33 @@ export default function AddMovieForm() {
     const title = formData.get("title")?.toString();
     const year = formData.get("year");
     const plot = formData.get("plot")?.toString();
+    const poster = formData.get("poster")?.toString();
 
     setLoading(true);
 
-    await createMovie({ title, year, plot, rated, genres });
+    const resp = await createMovie({
+      title,
+      year,
+      plot,
+      rated,
+      genres,
+      poster,
+    });
 
     setLoading(false);
+
+    if (resp.success) {
+      toast({
+        variant: "success",
+        title: "Movie Added",
+        description: "Added to the database.",
+        action: (
+          <ToastAction altText="login" className="hover:bg-green-600">
+            Login
+          </ToastAction>
+        ),
+      });
+    }
     /* if (title && year && plot && rated) {
       console.log(title, year, plot, rated, genres);
     }
@@ -96,6 +119,16 @@ export default function AddMovieForm() {
               onValueChange={setGenres}
             />
           </div>
+          <div>
+            <Label htmlFor="poster"> Movie URL </Label>
+            <Input
+              id="poster"
+              name="poster"
+              defaultValue="https://m.media-amazon.com/images/M/MV5BYzk0YWQzMGYtYTM5MC00NjM2LWE5YzYtMjgyNDVhZDg1N2YzXkEyXkFqcGdeQXVyMzE0MjY5ODA@._V1_SY1000_SX677_AL_.jpg"
+              placeholder="Enter the poster URL"
+            />
+          </div>
+
           <div>
             <Label htmlFor="rated">Movie Rated</Label>
             <Select onValueChange={(val) => setRated(val)}>
