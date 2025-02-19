@@ -36,6 +36,8 @@ export default function EditingMovieForms({
   const [poster, setPoster] = useState(movie?.poster);
   const [genres, setGenres] = useState(movie?.genres);
   const [rated, setRated] = useState(movie?.rated);
+  const [imdbRating, setIMDBRating] = useState(movie?.imdb?.rating);
+  // const imdb = Number(FormData.get("imdb"));
 
   const genresList = GENRES.map((genre) => ({
     label: genre,
@@ -43,7 +45,7 @@ export default function EditingMovieForms({
   }));
 
   const handleSubmitForm = () => {
-    //
+    //save the updated movie to the database
   };
   return (
     <Dialog open={open} onOpenChange={onCancel}>
@@ -91,8 +93,8 @@ export default function EditingMovieForms({
               <MultiSelect
                 list={genresList}
                 value={genres}
-                onChange={(e) => setTitle(e.targat.value)}
                 placeholder="Select movie genres"
+                selectedItems={genres}
                 onValueChange={setGenres}
               />
             </div>
@@ -122,6 +124,20 @@ export default function EditingMovieForms({
                 </SelectContent>
               </Select>
             </div>
+            <div>
+              <Label htmlFor="year"> IMdb Rating</Label>
+              <Input
+                id="imdb"
+                name="imdb"
+                max="10.0"
+                step="0.1"
+                type="number"
+                placeholder="Enter Imdb Rating"
+                value={imdbRating}
+                onChange={(e) => setIMDBRating(Number(e.targat.value))}
+              />
+            </div>
+
             <div className="w-full flex justify-end space-x-2">
               <div>
                 <Button type="reset" variant="outline">

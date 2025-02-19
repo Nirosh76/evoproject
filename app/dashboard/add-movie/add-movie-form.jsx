@@ -50,6 +50,7 @@ export default function AddMovieForm() {
     const year = formData.get("year");
     const plot = formData.get("plot")?.toString();
     const poster = formData.get("poster")?.toString();
+    const imdb = formData.get("imdb")?.toString();
 
     setLoading(true);
 
@@ -60,6 +61,7 @@ export default function AddMovieForm() {
       rated,
       genres,
       poster,
+      imdb: { rating: imdb },
     });
 
     setLoading(false);
@@ -67,7 +69,7 @@ export default function AddMovieForm() {
     if (resp.success) {
       toast({
         variant: "success",
-        title: "Movie Added",
+        title: "Movie Added Successfull",
         description: "Added to the database.",
         action: (
           <ToastAction altText="login" className="hover:bg-green-600">
@@ -116,6 +118,7 @@ export default function AddMovieForm() {
             <MultiSelect
               list={genresList}
               placeholder="Select movie genres"
+              selectedItems={genres}
               onValueChange={setGenres}
             />
           </div>
@@ -143,6 +146,18 @@ export default function AddMovieForm() {
                 ))}
               </SelectContent>
             </Select>
+          </div>
+
+          <div>
+            <Label htmlFor="year"> IMdb Rating</Label>
+            <Input
+              id="imdb"
+              name="imdb"
+              max="10.0"
+              step="0.1"
+              type="number"
+              placeholder="Enter Imdb Rating"
+            />
           </div>
           <CardFooter className="w-full flex justify-end space-x-2">
             <div>
