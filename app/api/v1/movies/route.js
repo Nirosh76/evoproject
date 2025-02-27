@@ -1,4 +1,4 @@
-import clientPromise from "@/lib/mongodb";
+import { db } from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 /*
 const MOVIES = [
@@ -14,9 +14,6 @@ const MOVIES = [
 export const GET = async (req) => {
   //get data from MongoDB
   try {
-    const client = await clientPromise();
-    const db = client.db("sample_mflix");
-
     const movies = await db
       .collection("movies_n")
       .find()

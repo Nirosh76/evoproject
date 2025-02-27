@@ -13,14 +13,42 @@ import {
 import { useState } from "react";
 import EditingMovieForms from "./edit-movie-form";
 import Test from "./test";
+import { updateMovie } from "@/lib/actions/movie";
+import { useRouter } from "next/navigation";
 
 export default function MovieTable({ movies }) {
+  const [isSaving, setIsSaving] = useState(false);
   const [editingMovie, setEditingMovie] = useState(null);
   const [deletingMovie, setDelitingMovie] = useState(null);
+  const router = useRouter();
 
   const HandleEdit = (movie) => {
     //console.log("edit", movie);
     setEditingMovie(movie);
+  };
+
+  const handleEditSubmit = async (movie) => {
+    console.log("at table ", movie);
+
+    const { id, title, year, plot, rated, genres, poster, imdb } = movie;
+
+    setIsSaving(true);
+    const resp = await updateMovie(id, {
+      title,
+      year,
+      plot,
+      rated,
+      genres,
+      poster,
+      imdb,
+    });
+
+    setIsSaving(false);
+
+    if (resp?.success) {
+      setEditingMovie(false);
+      router.refresh();
+    }
   };
 
   const HandleDelete = (m) => {
@@ -83,8 +111,9 @@ export default function MovieTable({ movies }) {
         <EditingMovieForms
           movie={editingMovie}
           open={true}
+          onSubmit={handleEditSubmit}
           onCancel={() => setEditingMovie(null)}
-          isLoading={true}
+          isLoading={isSaving}
         />
       )}
 

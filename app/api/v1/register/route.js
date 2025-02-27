@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import clientPromise from "@/lib/mongodb";
+import { db } from "@/lib/mongodb";
 import bcrypt from "bcrypt";
 
 export const POST = async (req) => {
@@ -17,9 +17,6 @@ export const POST = async (req) => {
     }
 
     try {
-      const client = await clientPromise();
-      const db = client.db("sample_mflix");
-
       const existingUser = await db.collection("users").findOne({ email });
 
       if (existingUser) {

@@ -45,7 +45,7 @@ export default function Loginform({ title }) {
             redirect("/dashboard");
           },
           onError: (ctx) => {
-            console.log(ctx.error.message);
+            console.log("login error", ctx.error.message);
             setEmailError(ctx.error.message);
           },
         }
