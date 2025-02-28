@@ -61,7 +61,7 @@ export default function EditingMovieForms({
 
   return (
     <>
-      <Dialog open={open} onOpenChange={onCancel}>
+      <Dialog open={open} onOpenChange={onCancel} modal={false}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit Movie</DialogTitle>
