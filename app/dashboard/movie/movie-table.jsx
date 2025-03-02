@@ -13,13 +13,15 @@ import {
 import { useState } from "react";
 import EditingMovieForms from "./edit-movie-form";
 import Test from "./test";
-import { updateMovie } from "@/lib/actions/movie";
+import { deleteMovie, updateMovie } from "@/lib/actions/movie";
 import { useRouter } from "next/navigation";
+import DeleteMovieDialog from "./delete-movie-dialog";
 
 export default function MovieTable({ movies }) {
   const [isSaving, setIsSaving] = useState(false);
   const [editingMovie, setEditingMovie] = useState(null);
   const [deletingMovie, setDelitingMovie] = useState(null);
+  const [isDeleting, setIsDeliting] = useState(false);
   const router = useRouter();
 
   const HandleEdit = (movie) => {
@@ -47,6 +49,17 @@ export default function MovieTable({ movies }) {
 
     if (resp?.success) {
       setEditingMovie(false);
+      router.refresh();
+    }
+  };
+
+  const handleDeleteConfirm = async (movieId) => {
+    setIsDeliting(true);
+    const resp = await deleteMovie(movieId);
+    setIsDeliting(false);
+
+    if (resp?.success) {
+      setDelitingMovie(null);
       router.refresh();
     }
   };
@@ -117,7 +130,15 @@ export default function MovieTable({ movies }) {
         />
       )}
 
-      {/* {deletingMovie && <Test />} */}
+      {deletingMovie && (
+        <DeleteMovieDialog
+          movie={deletingMovie}
+          open={true}
+          onCancel={() => setDelitingMovie(null)}
+          onConfirm={() => handleDeleteConfirm(deletingMovie?.id)}
+          isLoading={isDeleting}
+        />
+      )}
     </div>
   );
 }

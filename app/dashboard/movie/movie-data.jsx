@@ -7,7 +7,7 @@ import MovieTable from "./movie-table";
 export default async function MovieData() {
   try {
     const moviesQuery = await db
-      .collection("movies_nn")
+      .collection("movies")
       .find()
       .sort({ metacritic: -1 })
       .limit(50)
