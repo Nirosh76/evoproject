@@ -19,6 +19,10 @@ import React from "react";
 import { getMovies } from "@/lib/apis/server";
 import { auth } from "@/lib/auth";
 
+//export const revalidate = 60;
+
+export const dynamic = "force-dynamic";
+
 export default async function MoviesPublicPage() {
   //1. add shadcn card
   //2. create movies get end point
@@ -32,7 +36,6 @@ export default async function MoviesPublicPage() {
 
   const moviesQuery = await getMovies();
   // comment
-  console.log("MOVIES", moviesQuery);
 
   console.log("length ", moviesQuery?.length);
   return (
